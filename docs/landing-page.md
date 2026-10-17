@@ -39,16 +39,18 @@ O serviço envia POST JSON com `name`, `company`, `email`, `whatsapp`, `challeng
 - `feat: add Rolltech brand assets and visual foundations`: SVGs, fontes, estilos globais e metadados da página.
 - `feat: implement responsive Rolltech landing page from Figma`: seções responsivas, navegação e formulário de contato.
 - `test: cover landing navigation and contact submission states`: testes e esta documentação.
+- `chore: align Angular dependencies and Node requirements`: versões do Angular, lockfile, versão exigida do Node e configuração do CLI.
 
-As alterações preexistentes em `angular.json`, `package.json`, `package-lock.json` e `.nvmrc` ficaram fora desses commits.
+O quarto commit reúne as alterações de dependências que estavam pendentes na branch.
 
 ## Validação realizada
 
 - Build de produção com prerender: aprovado, sem avisos de orçamento.
 - Seis testes em ChromeHeadless: aprovados.
+- `npm ci --dry-run --ignore-scripts --offline`: manifests e lockfile consistentes.
 - Navegação, menu, seleção de interesse e formulário verificados no navegador.
 - Larguras de 320, 390, 768, 1024 e 1440 px: sem rolagem horizontal, sem erros JavaScript e com todos os SVGs visíveis carregados.
 - Comparação visual: desktop 1440 × 4548 e mobile 390 × 6184, com as alturas das referências do Figma.
 - Capturas e relatório local em `tmp/landing-1440.png`, `tmp/landing-390.png` e `tmp/visual-qa.json` (ignorados pelo Git).
 
-O Node do sistema estava em 22.14.0; a validação utilizou Node 22.22.3 em `tmp/node-runtime/node.exe`. A instalação anterior de `node_modules` estava incompleta e foi reconstruída. O `npm ci` encontrou inconsistências preexistentes entre os manifests; eles foram preservados e a recuperação local usou `npm install --no-save --package-lock=false`. O lockfile precisa ser reconciliado com as alterações de dependências já existentes antes de exigir uma instalação limpa no CI.
+O Node do sistema estava em 22.14.0; a validação utilizou Node 22.22.3 em `tmp/node-runtime/node.exe`. O `package.json` e o lockfile exigem uma versão do Node compatível com Angular 22.
