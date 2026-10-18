@@ -25,7 +25,8 @@
           Interesse: {{ selectedService() }}
           <button
             type="button"
-            (click)="selectedService.set(null)"
+            (click)="selectService(null)"
+            [disabled]="pending()"
             aria-label="Remover frente selecionada"
           >
             ×
@@ -90,9 +91,11 @@
             id="contact-whatsapp"
             formControlName="whatsapp"
             type="tel"
+            inputmode="tel"
             autocomplete="tel"
-            placeholder="(00) 00000-0000"
-            maxlength="20"
+            placeholder="(11) 91234-5678"
+            maxlength="19"
+            (input)="formatWhatsapp($event)"
             [attr.aria-invalid]="invalid('whatsapp')"
             [attr.aria-describedby]="
               invalid('whatsapp') ? 'whatsapp-error' : null
@@ -100,7 +103,7 @@
           />
           @if (invalid("whatsapp")) {
             <p id="whatsapp-error" class="error">
-              Informe um telefone com DDD.
+              Informe um celular com DDD.
             </p>
           }
         </div>

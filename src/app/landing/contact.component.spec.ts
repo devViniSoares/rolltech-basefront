@@ -29,6 +29,7 @@ describe('Contact form', () => {
     fixture.detectChanges();
     return {
       component: fixture.componentInstance,
+      fixture,
       http: TestBed.inject(HttpTestingController),
     };
   }
@@ -45,6 +46,31 @@ describe('Contact form', () => {
     http.expectNone('/api/contact');
   });
 
+  it('validates email domains and Brazilian WhatsApp numbers', () => {
+    const { component } = setup();
+    const email = component.form.controls.email;
+    const whatsapp = component.form.controls.whatsapp;
+
+    for (const value of [
+      'maria@empresa',
+      'maria@-empresa.com',
+      'maria..silva@empresa.com',
+    ]) {
+      email.setValue(value);
+      expect(email.invalid).withContext(value).toBeTrue();
+    }
+
+    for (const value of [
+      '(11 99999-1234',
+      '(11) 3333-4444',
+      '00 99999-1234',
+      '11 9999-1234',
+    ]) {
+      whatsapp.setValue(value);
+      expect(whatsapp.invalid).withContext(value).toBeTrue();
+    }
+  });
+
   it('does not claim success when the endpoint is not configured', async () => {
     const { component, http } = setup(null);
     component.form.setValue(values);
@@ -55,8 +81,8 @@ describe('Contact form', () => {
     http.expectNone('/api/contact');
   });
 
-  it('normalizes the payload, prevents duplicate requests and resets only after success', async () => {
-    const { component, http } = setup();
+  it('locks the form while sending, prevents duplicate requests and resets only after success', async () => {
+    const { component, fixture, http } = setup();
     component.form.setValue(values);
     component.selectService('Integrações');
     const sending = component.submit();
@@ -72,10 +98,29 @@ describe('Contact form', () => {
       service: 'Integrações',
     });
     expect(component.pending()).toBeTrue();
+    expect(component.form.controls.challenge.disabled).toBeTrue();
+    fixture.detectChanges();
+    expect(
+      (
+        fixture.nativeElement.querySelector(
+          '#contact-challenge',
+        ) as HTMLTextAreaElement
+      ).disabled,
+    ).toBeTrue();
+    expect(
+      (
+        fixture.nativeElement.querySelector(
+          '.service-selection button',
+        ) as HTMLButtonElement
+      ).disabled,
+    ).toBeTrue();
+    component.selectService('Software sob medida');
+    expect(component.selectedService()).toBe('Integrações');
     request.flush({});
     await sending;
     expect(component.sent()).toBeTrue();
     expect(component.pending()).toBeFalse();
+    expect(component.form.controls.challenge.enabled).toBeTrue();
     expect(component.form.controls.name.value).toBe('');
     expect(component.selectedService()).toBeNull();
   });
@@ -91,6 +136,7 @@ describe('Contact form', () => {
     expect(component.form.getRawValue()).toEqual(values);
     expect(component.sent()).toBeFalse();
     expect(component.pending()).toBeFalse();
+    expect(component.form.controls.challenge.enabled).toBeTrue();
     const retry = component.submit();
     http.expectOne('/api/contact').flush({});
     await retry;

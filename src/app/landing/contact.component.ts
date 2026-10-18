@@ -9,6 +9,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { ContactService } from './contact.service';
 
+const EMAIL_PATTERN =
+  /^[^\s@]+@(?:[a-z\d](?:[a-z\d-]*[a-z\d])?\.)+[a-z]{2,63}$/i;
+const WHATSAPP_PATTERN =
+  /^(?:\+?55[\s-]?)?(?:\([1-9]\d\)|[1-9]\d)[\s-]?9\d{4}[\s-]?\d{4}$/;
+
 @Component({
   selector: 'app-contact',
   imports: [ReactiveFormsModule],
@@ -43,16 +48,14 @@ export class ContactComponent {
     ],
     email: [
       '',
-      [Validators.required, Validators.email, Validators.maxLength(254)],
-    ],
-    whatsapp: [
-      '',
       [
-        Validators.pattern(
-          /^(?:\+?55\s*)?\(?[1-9][0-9]\)?\s*9?[0-9]{4}[-\s]?[0-9]{4}$/,
-        ),
+        Validators.required,
+        Validators.email,
+        Validators.pattern(EMAIL_PATTERN),
+        Validators.maxLength(254),
       ],
     ],
+    whatsapp: ['', [Validators.pattern(WHATSAPP_PATTERN)]],
     challenge: [
       '',
       [
@@ -68,8 +71,41 @@ export class ContactComponent {
     return control.invalid && control.touched;
   }
 
-  selectService(service: string): void {
+  selectService(service: string | null): void {
+    if (this.pending()) return;
     this.selectedService.set(service);
+  }
+
+  formatWhatsapp(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const raw = input.value;
+    const cursor = input.selectionStart ?? raw.length;
+    const digits = raw.replace(/\D/g, '');
+    const hasCountryCode =
+      raw.trimStart().startsWith('+55') ||
+      (raw.startsWith('55') && digits.length > 11);
+    const national = (hasCountryCode ? digits.slice(2) : digits).slice(0, 11);
+
+    let formatted = '';
+    if (national) {
+      formatted = `(${national.slice(0, 2)}`;
+      if (national.length >= 2) formatted += ')';
+      if (national.length > 2) formatted += ` ${national.slice(2, 7)}`;
+      if (national.length > 7) formatted += `-${national.slice(7)}`;
+    }
+    if (hasCountryCode) formatted = `+55${formatted ? ` ${formatted}` : ''}`;
+
+    this.form.controls.whatsapp.setValue(formatted);
+
+    const digitsBeforeCursor = raw.slice(0, cursor).replace(/\D/g, '').length;
+    let nextCursor = 0;
+    let seenDigits = 0;
+    while (nextCursor < formatted.length && seenDigits < digitsBeforeCursor) {
+      if (/\d/.test(formatted[nextCursor])) seenDigits++;
+      nextCursor++;
+    }
+    if (cursor === raw.length) nextCursor = formatted.length;
+    input.setSelectionRange(nextCursor, nextCursor);
   }
 
   async submit(): Promise<void> {
@@ -95,8 +131,9 @@ export class ContactComponent {
       );
       return;
     }
-    this.pending.set(true);
     const values = this.form.getRawValue();
+    this.pending.set(true);
+    this.form.disable({ emitEvent: false });
     try {
       await firstValueFrom(
         this.contact.send({
@@ -119,6 +156,7 @@ export class ContactComponent {
         'Não foi possível enviar agora. Seus dados foram mantidos para você tentar novamente.',
       );
     } finally {
+      this.form.enable({ emitEvent: false });
       this.pending.set(false);
     }
   }
