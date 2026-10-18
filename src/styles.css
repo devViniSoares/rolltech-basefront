@@ -1,1 +1,205 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/fonts/manrope-regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/fonts/manrope-semibold.ttf") format("truetype");
+}
+@font-face {
+  font-family: Manrope;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/assets/fonts/manrope-bold.ttf") format("truetype");
+}
+:root {
+  --brand: #071b33;
+  --brand-secondary: #0b2748;
+  --muted: #6f7b88;
+  --subtle: #f7f8fa;
+  --border: #e5eaf0;
+  --accent: #2db9c3;
+  --shadow: 0 12px 32px #071b3314;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  background: white;
+  color: var(--brand);
+  font-family: Manrope, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+p,
+ol {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-weight: 700;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+button,
+input,
+textarea {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+img {
+  display: block;
+}
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 5px;
+}
+section[id],
+main[id] {
+  scroll-margin-top: 24px;
+}
+.container {
+  width: min(100% - 160px, 1280px);
+  margin-inline: auto;
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 43px;
+  padding: 11px 15px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--brand);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  text-align: center;
+  transition:
+    background 0.18s,
+    transform 0.18s;
+}
+.button:hover {
+  background: var(--brand-secondary);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.button.secondary {
+  color: var(--brand);
+  background: white;
+  border-color: var(--border);
+}
+.button.secondary:hover {
+  background: var(--subtle);
+}
+.button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--subtle);
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 19px;
+  line-height: 23px;
+  font-weight: 700;
+  letter-spacing: 0.38px;
+}
+.brand picture {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+}
+.brand:hover {
+  text-decoration: none;
+}
+.eyebrow {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  padding: 12px 20px;
+  z-index: 10;
+  background: white;
+  border-radius: 12px;
+  transform: translateY(-180%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.mobile-only {
+  display: none !important;
+}
+@media (min-width: 768px) and (max-width: 1199px) {
+  .container {
+    width: calc(100% - 80px);
+  }
+}
+@media (max-width: 767px) {
+  .container {
+    width: calc(100% - 40px);
+  }
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: revert !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}

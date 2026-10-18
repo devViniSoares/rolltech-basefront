@@ -1,0 +1,148 @@
+<section id="contato" class="contact" aria-labelledby="contact-title">
+  <div class="container contact-layout">
+    <div class="contact-copy">
+      <p class="eyebrow">VAMOS DESENROLAR?</p>
+      <h2 id="contact-title">Conte o que está travando sua empresa.</h2>
+      <p class="intro">
+        <span class="desktop-only"
+          >Não precisa chegar com a solução pronta. Descreva o cenário e a gente
+          ajuda a encontrar o melhor caminho.</span
+        ><span class="mobile-only"
+          >Não precisa chegar com a solução pronta. Descreva o cenário.</span
+        >
+      </p>
+      <p class="human-note desktop-only">Resposta humana · sem compromisso</p>
+    </div>
+    <form
+      #formElement
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate
+      [attr.aria-busy]="pending()"
+    >
+      @if (selectedService()) {
+        <p class="service-selection">
+          Interesse: {{ selectedService() }}
+          <button
+            type="button"
+            (click)="selectService(null)"
+            [disabled]="pending()"
+            aria-label="Remover frente selecionada"
+          >
+            ×
+          </button>
+        </p>
+      }
+      <div class="fields">
+        <div class="field">
+          <label for="contact-name">Nome</label
+          ><input
+            id="contact-name"
+            formControlName="name"
+            autocomplete="name"
+            placeholder="Como podemos te chamar?"
+            maxlength="120"
+            required
+            [attr.aria-invalid]="invalid('name')"
+            [attr.aria-describedby]="invalid('name') ? 'name-error' : null"
+          />
+          @if (invalid("name")) {
+            <p id="name-error" class="error">Informe seu nome.</p>
+          }
+        </div>
+        <div class="field">
+          <label for="contact-company">Empresa</label
+          ><input
+            id="contact-company"
+            formControlName="company"
+            autocomplete="organization"
+            placeholder="Nome da empresa"
+            maxlength="160"
+            required
+            [attr.aria-invalid]="invalid('company')"
+            [attr.aria-describedby]="
+              invalid('company') ? 'company-error' : null
+            "
+          />
+          @if (invalid("company")) {
+            <p id="company-error" class="error">Informe sua empresa.</p>
+          }
+        </div>
+        <div class="field">
+          <label for="contact-email">E-mail</label
+          ><input
+            id="contact-email"
+            formControlName="email"
+            type="email"
+            autocomplete="email"
+            placeholder="voce@empresa.com"
+            maxlength="254"
+            required
+            [attr.aria-invalid]="invalid('email')"
+            [attr.aria-describedby]="invalid('email') ? 'email-error' : null"
+          />
+          @if (invalid("email")) {
+            <p id="email-error" class="error">Informe um e-mail válido.</p>
+          }
+        </div>
+        <div class="field">
+          <label for="contact-whatsapp">WhatsApp</label
+          ><input
+            id="contact-whatsapp"
+            formControlName="whatsapp"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="(11) 91234-5678"
+            maxlength="19"
+            (input)="formatWhatsapp($event)"
+            [attr.aria-invalid]="invalid('whatsapp')"
+            [attr.aria-describedby]="
+              invalid('whatsapp') ? 'whatsapp-error' : null
+            "
+          />
+          @if (invalid("whatsapp")) {
+            <p id="whatsapp-error" class="error">
+              Informe um celular com DDD.
+            </p>
+          }
+        </div>
+      </div>
+      <div class="field">
+        <label for="contact-challenge">Desafio ou necessidade</label
+        ><textarea
+          id="contact-challenge"
+          formControlName="challenge"
+          placeholder="Conte brevemente o que precisa ser desenrolado…"
+          maxlength="4000"
+          required
+          [attr.aria-invalid]="invalid('challenge')"
+          [attr.aria-describedby]="
+            invalid('challenge') ? 'challenge-error' : null
+          "
+        ></textarea>
+        @if (invalid("challenge")) {
+          <p id="challenge-error" class="error">
+            Conte o que você precisa desenrolar.
+          </p>
+        }
+      </div>
+      <button class="button" type="submit" [disabled]="pending()">
+        {{ pending() ? "Enviando…" : "Enviar meu desafio" }}
+      </button>
+      <p class="consent desktop-only">
+        Ao enviar, você concorda em ser contatado pela Rolltech sobre esta
+        solicitação.
+      </p>
+      <p
+        class="status"
+        [class.success]="sent()"
+        role="status"
+        aria-live="polite"
+        [hidden]="!message()"
+      >
+        {{ message() }}
+      </p>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,308 @@
+:host {
+  display: block;
+}
+.section h2 {
+  font-size: 44px;
+  line-height: 51px;
+}
+.heading-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.intro {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 27px;
+}
+.section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 380px));
+  gap: 24px;
+}
+.problem {
+  min-height: 620px;
+  padding-block: 72px;
+  background: var(--subtle);
+}
+.problem .section-heading {
+  min-height: 150px;
+}
+.problem h2 {
+  font-size: 46px;
+  line-height: 53px;
+}
+.problem .intro {
+  max-width: 350px;
+  min-height: 80px;
+}
+.pain-cards {
+  margin-top: 36px;
+}
+.pain-card {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: white;
+}
+.small-number {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+}
+.pain-card h3 {
+  font-size: 22px;
+  line-height: 29px;
+}
+.pain-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 22px;
+}
+.services {
+  min-height: 760px;
+  padding-block: 76px;
+}
+.service-cards {
+  grid-template-columns: repeat(3, minmax(0, 360px));
+  margin-top: 38px;
+}
+.service-card {
+  min-height: 330px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--brand);
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+}
+.service-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.service-card h3 {
+  font-size: 24px;
+  line-height: 31px;
+}
+.service-card p {
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--muted);
+}
+.service-card a {
+  font-size: 13px;
+  font-weight: 600;
+}
+.service-card a span {
+  margin-left: 8px;
+}
+.process {
+  min-height: 720px;
+  padding-block: 76px;
+  background: var(--brand);
+  color: white;
+}
+.process .eyebrow {
+  color: var(--accent);
+}
+.process .section-heading {
+  min-height: 120px;
+  margin-block: 42px;
+}
+.process .intro {
+  max-width: 390px;
+  min-height: 85px;
+  color: #ffffffbd;
+}
+.process-cards {
+  padding: 0;
+  list-style: none;
+}
+.step-card {
+  min-height: 260px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+  border: 1px solid var(--accent);
+  border-radius: 24px;
+  background: var(--brand-secondary);
+}
+.step-card .badge {
+  width: 42px;
+  height: 42px;
+  background: var(--accent);
+  color: var(--brand);
+  font-size: 12px;
+  font-weight: 700;
+}
+.step-card h3 {
+  font-size: 24px;
+  line-height: 31px;
+}
+.step-card p {
+  font-size: 14px;
+  line-height: 22px;
+  color: #ffffffbd;
+}
+.manifesto {
+  min-height: 520px;
+  padding-block: 80px;
+  display: flex;
+  align-items: center;
+}
+.manifesto .container {
+  display: grid;
+  grid-template-columns: minmax(0, 700px) minmax(0, 460px);
+  gap: 80px;
+  align-items: center;
+}
+.manifesto .heading-copy {
+  gap: 20px;
+}
+.manifesto h2 {
+  font-size: 52px;
+  line-height: 60px;
+}
+.manifesto-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 460px;
+}
+.manifesto h3 {
+  font-size: 24px;
+  line-height: 32px;
+}
+.manifesto-copy p {
+  font-size: 17px;
+  line-height: 28px;
+  color: var(--muted);
+}
+@media (max-width: 767px) {
+  .section h2,
+  .problem h2 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .heading-copy {
+    gap: 24px;
+  }
+  .section-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .intro {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .problem {
+    min-height: 920px;
+    padding-block: 56px;
+  }
+  .problem .section-heading {
+    min-height: 0;
+  }
+  .problem .intro {
+    min-height: 0;
+    max-width: none;
+  }
+  .pain-cards {
+    margin-top: 24px;
+  }
+  .pain-card {
+    min-height: 170px;
+  }
+  .pain-card h3 {
+    font-size: 20px;
+    line-height: 27px;
+  }
+  .services {
+    min-height: 1320px;
+    padding-block: 56px 14px;
+  }
+  .service-cards {
+    margin-top: 24px;
+  }
+  .process {
+    min-height: 1120px;
+    padding-block: 56px;
+  }
+  .process .section-heading {
+    min-height: 0;
+    margin-block: 24px;
+  }
+  .process h2 {
+    line-height: 39px;
+  }
+  .process .intro {
+    min-height: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .step-card {
+    min-height: 235px;
+  }
+  .step-card h3 {
+    font-size: 22px;
+    line-height: 29px;
+  }
+  .manifesto {
+    min-height: 560px;
+    padding-block: 64px;
+    align-items: flex-start;
+  }
+  .manifesto .container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .manifesto .heading-copy,
+  .manifesto-copy {
+    gap: 24px;
+  }
+  .manifesto h2 {
+    font-size: 38px;
+    line-height: 45px;
+  }
+  .manifesto h3 {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  .manifesto-copy p {
+    font-size: 16px;
+    line-height: 25px;
+  }
+}
